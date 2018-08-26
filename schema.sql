@@ -1,0 +1,18 @@
+DROP DATABASE IF EXISTS cars_db`;
+CREATE DATABASE `cars_db`;
+USE `cars_db`;
+
+CREATE TABLE profile(
+    id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    user_name VARCHAR(50) NOT NULL,
+    pass_word VARCHAR (50) NOT NULL
+    user_id VARCHAR (300),
+    user_email VARCHAR (50)
+);
+
+// ORIGINALLY WAS THIS
+DROP DATABASE IF EXISTS exampledb;
+CREATE DATABASE exampledb;
+
+DROP DATABASE IF EXISTS testdb;
+CREATE DATABASE testdb;
