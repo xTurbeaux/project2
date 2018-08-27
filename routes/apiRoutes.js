@@ -1,11 +1,10 @@
 var db = require("../models");
-
+var passport = require('passport');
 module.exports = function(app) {
   // Get all examples
-  app.get("/api/examples", function(req, res) {
-    db.Example.findAll({}).then(function(dbExamples) {
-      res.json(dbExamples);
-    });
+  //Gets profile info
+  app.get('/profile', function(req,res){
+    res.render('profile', {title: "PROFILE PAGE"})
   });
 
   // Create a new example
