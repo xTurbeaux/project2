@@ -1,27 +1,71 @@
+// Vars
+var passport = require("../config/passport");
 var db = require("../models");
 
+// Routes
 module.exports = function(app) {
-  // Load index page
-  app.get("/", function(req, res) {
-    db.Example.findAll({}).then(function(dbExamples) {
-      res.render("index", {
-        msg: "Welcome!",
-        examples: dbExamples
-      });
-    });
-  });
+    // Gets home page
+    app.get('/', function(req, res) {
+        console.log(reg.user);
 
-  // Load example page and pass in an example by id
-  app.get("/example/:id", function(req, res) {
-    db.Example.findOne({ where: { id: req.params.id } }).then(function(dbExample) {
-      res.render("example", {
-        example: dbExample
-      });
-    });
-  });
+        // If user exsists, proceed
+        if (req.user) {
+            db.User.findOne({
+                where: {
+                    id: req.user
+                },
+                raw: true
+            }).then((dbUser) => {
+                // send data to handlebars and render
+                res.render("index", {
+                    loginStatus: true,
+                    dbUser
+                });
+            })
 
-  // Render 404 page for any unmatched routes
-  app.get("*", function(req, res) {
-    res.render("404");
-  });
+        } else {
+            res.render("index");
+        }
+    });
+
+    // Handle login route
+    app.post("/login", passport.authenticate('local'), function(req, res) {
+        res.json('/');
+    });
+
+    // Register route
+    app.get('/sign', function(reg, res) {
+        res.render('register');
+    });
+
+// Launches profile
+    app.get('/profile', function(req, res) {
+        res.render('profile');
+    });
+
+    // Logout route
+     app.get("/logout", function(req, res) {
+        req.logout();
+        res.redirect("/");
+    });
+
+
+  // Adds user to database
+    app.post("/sign", function(req, res) {
+
+        db.User.create({
+            name: req.body.name,
+            email: req.body.email,
+            password: req.body.password
+
+        }).then((result)=> {
+            console.log(result);
+            // send user back to login page
+            res.json('/login')
+
+        }).catch(function(err) {
+            //if err throw err to user
+            res.json(err);
+        });
+    });
 };
