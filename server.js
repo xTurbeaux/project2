@@ -56,7 +56,7 @@ var options = {
 
 // Routes
 require("./routes/login-routes")(app);
-
+require("./routes/html-routes.js")(app);
 require("./routes/api-routes.js")(app);
 
 
@@ -64,6 +64,5 @@ require("./routes/api-routes.js")(app);
 app.listen(PORT, function(){
   console.log("Listening on port: " + PORT);
 });
-
 
 module.exports = app;
