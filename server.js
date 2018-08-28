@@ -43,6 +43,27 @@ db.sequelize.sync(syncOptions).then(function() {
       PORT
     );
   });
+});  
+// Hosting stuff
+var options = {
+  host: 'localhost',
+  user: 'root',
+  password:'root',
+  database: ''
+};
+
+
+
+// Routes
+require("./routes/login-routes")(app);
+
+require("./routes/api-routes.js")(app);
+
+
+
+app.listen(PORT, function(){
+  console.log("Listening on port: " + PORT);
 });
+
 
 module.exports = app;
