@@ -4,10 +4,10 @@ USE `cars_db`;
 
 CREATE TABLE profile(
     id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    user_name VARCHAR(50) NOT NULL,
-    pass_word VARCHAR (50) NOT NULL
-    user_id VARCHAR (300),
-    user_email VARCHAR (50)
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR (50) NOT NULL
+    userid VARCHAR (300),
+    email VARCHAR (50)
 );
 
 // ORIGINALLY WAS THIS
