@@ -9,7 +9,7 @@ res.render("index");
 
 // Shows posts
  router.get("/post", function(req, res) {
-     db.cars.findAll({}).then(function(dbFindersfee) {
+     db.cars.findAll({}).then(function(dbcars) {
 
 // Change idk to callback function name
  var IDK = 
