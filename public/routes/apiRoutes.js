@@ -3,7 +3,7 @@ var db = require("../models");
 var passport = require('passport');
 
 
-module.exports = function(app) {
+module.exports = function(app, db) {
 
     app.get("/api/user", authenticationMiddleware() ,function(req,res){
         res.send(req.session.passport);
@@ -15,15 +15,58 @@ module.exports = function(app) {
   
             if (req.isAuthenticated()) return next();
             res.send("Not Logged In");
-      }
+      };
   }
-}
+};
 
-// API route
+// API route - still needs the rest of crud
 module.exports = function(app) {
+  
 
-  app.get('/index', function(req,res){
-    res.render('home', {title: "index"})
+  app.get('/api/all', function (req,res) {
+      db.Item.findAll({}).then(function (result) {
+          res.json(result);
+      });
+    });
+  };
+  
+  app.put('/api/update/:id', function (req,res) {
+        db.Item.update({
+            name: req.body.name
+        }, {
+            where: {
+                id: req.params.id
+            }
+        }).then(function(result) {
+            res.json(result);
+        });
+  });
+  
+  app.post('/api/new', function () {
+    db.Item.create({
+        name: req.body.name,
+        make: req.body.make,
+        model: req.body.model,
+        year: req.body.year,
+        price: req.body.price,
+        color: req.body.color 
+  });
+  
+  app.delete('/api/delete/id:', function (req,res) {
+      db.Item.destory({
+        where: {
+            id: req.params.id
+        }
+      }).then(function(result) {
+          res.json(result);
+      });
+  });
+
+        //specific applications of crud 
+
+  
+        app.get('index.js/api/examples', function(req,res){
+    res.render('home', {title: "index"});
   });
 
   app.get('/sign', function(req, res){
@@ -32,7 +75,7 @@ module.exports = function(app) {
 
   app.get('/profile', authenticationMiddleware() , function(req, res){
     res.render('dashboard');
-  })
+  });
 
   app.post('/register', function(req, res){
       // Validation check with Middleware, goes Here

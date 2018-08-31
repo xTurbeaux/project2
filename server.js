@@ -2,7 +2,7 @@ require("dotenv").config();
 var express = require("express");
 var bodyParser = require("body-parser");
 var exphbs = require("express-handlebars");
-
+var apiRoutes = require('./app/routes/apiRoutes.js');
 var db = require("./models");
 
 var app = express();
@@ -11,6 +11,7 @@ var PORT = process.env.PORT || 3000;
 // Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(bodyParser.text());
 app.use(express.static("public"));
 
 // Handlebars
@@ -22,9 +23,25 @@ app.engine(
 );
 app.set("view engine", "handlebars");
 
+//routes based off db and apiRoutes function 
+
+app.use(express.static('app/public'));
+
+
+
 // Routes
-require("./routes/apiRoutes")(app);
-require("./routes/htmlRoutes")(app);
+require("./public/routes/apiRoutes")(app);
+require("./public/routes/htmlRoutes")(app);
+
+//static db route/app 'app' route 
+
+apiRoutes(app);
+db.sequelize.sync().then(function() {
+    app.listen(PORT, function () {
+      console.log("Listening on port: " + PORT);
+    });
+});
+
 
 var syncOptions = { force: false };
 
@@ -51,31 +68,5 @@ var options = {
   password:'root',
   database: ''
 };
-
-
-
-// Routes
-require("./routes/login-routes")(app);
-require("./routes/html-routes.js")(app);
-require("./routes/api-routes.js")(app);
-
-
-
-app.listen(PORT, function(){
-  console.log("Listening on port: " + PORT);
-});
-
-
-// Routes
-require("./routes/login-routes")(app);
-
-require("./routes/api-routes.js")(app);
-
-
-
-app.listen(PORT, function(){
-  console.log("Listening on port: " + PORT);
-});
-
 
 module.exports = app;
