@@ -1,3 +1,5 @@
+
+
 // User log in route
 var db = require("../models");
 var passport = require('passport');
@@ -65,7 +67,7 @@ module.exports = function(app) {
         //specific applications of crud 
 
   
-        app.get('index.js/api/examples', function(req,res){
+  app.get('index.js/api/examples', function(req,res){
     res.render('home', {title: "index"});
   });
 
