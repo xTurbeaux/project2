@@ -30,8 +30,8 @@ app.use(express.static('app/public'));
 
 
 // Routes
-require("./public/routes/apiRoutes")(app);
-require("./public/routes/htmlRoutes")(app);
+require("./routes/apiRoutes")(app);
+require("./routes/htmlRoutes")(app);
 
 //static db route/app 'app' route 
 
