@@ -2,7 +2,6 @@ require("dotenv").config();
 var express = require("express");
 var bodyParser = require("body-parser");
 var exphbs = require("express-handlebars");
-var apiRoutes = require('./app/routes/apiRoutes.js');
 var db = require("./models");
 
 var app = express();
@@ -30,8 +29,8 @@ app.use(express.static('app/public'));
 
 
 // Routes
-require("./public/routes/apiRoutes")(app);
-require("./public/routes/htmlRoutes")(app);
+require("./routes/apiRoutes")(app);
+require("./routes/htmlRoutes")(app);
 
 //static db route/app 'app' route 
 
