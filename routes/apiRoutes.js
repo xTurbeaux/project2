@@ -3,7 +3,13 @@ var db = require("../models");
 var passport = require('passport');
 var app = app;
 
+//<<<<<<< blake-new
+
 module.exports = function(app) {
+
+=======
+module.exports = function(app) {
+//>>>>>>> master
     app.get("/api/user", authenticationMiddleware() ,function(req,res){
         res.send(req.session.passport);
     });
@@ -27,9 +33,14 @@ module.exports = function(app) {
           res.json(result);
       });
     });
+//<<<<<<< blake-new
+  // get one car by id 
+  app.put('/api/update/:id', function (req,res) {
+=======
   };
   // get one car by id 
   app.post('/api/update/:id', function (req,res) {
+//>>>>>>> master
         db.Item.update({
             name: req.body.name
         }, {
@@ -87,14 +98,19 @@ module.exports = function(app) {
   
     
 });
+//<<<<<<< blake-new
+};
+=======
+//>>>>>>> master
 
 // deal with this, cause idk how
-if (errors){
-
-}
+// if (error){
+//     throw error;
+// }
 
 // Else
-else {
+// else {
+{
       var name     = req.body.name;
       var email    = req.body.email;
       var password = req.body.password;
