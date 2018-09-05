@@ -119,8 +119,49 @@
 //   var profile = googleUser.getBasicProfile();
 
 // }
-
 $(document).ready(function() {
-
-  
-})
+    // Profile stuff
+    var email = $("#email");
+    var password = $("#password");
+    
+    // When submit button is clicked
+    $(document).on("click", "#submit",);
+    
+    // Sign up stuff
+    function signupData(event) {
+       event.preventDefault;
+       createUser({
+         username: username.val().trim(),
+         email: email.val().trim(),
+         password: password.val().trim()
+       });
+     }
+    
+     // Checks aganist database
+     function loginUser(userInfo) {
+       $.post("/api/logindata", userInfo);
+     }
+    
+     function createUser(userInfo) {
+       $.post("/api/userdata", userInfo);
+     }
+    
+    // When log in button is clicked
+    $(document).on("click", "#login", myFunction);
+    function myFunction(event) {
+     event.preventDefault();
+     loginData();
+    };
+    });
+    
+    // Log in function data
+    function loginData() {
+       loginUser({
+         username: $("#user_name_login")
+           .val()
+           .trim(),
+         password: $("#password_login")
+           .val()
+           .trim()
+       });
+     }
