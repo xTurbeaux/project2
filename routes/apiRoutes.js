@@ -1,7 +1,8 @@
 // User log in route
 var db = require("../models");
 var passport = require('passport');
-var app = app;
+var express = require('express'),
+app = express();
 
 module.exports = function(app) {
     app.get("/api/user", authenticationMiddleware() ,function(req,res){
@@ -28,6 +29,7 @@ module.exports = function(app) {
       });
     });
   };
+
   // get one car by id 
   app.post('/api/update/:id', function (req,res) {
         db.Item.update({
@@ -50,6 +52,7 @@ module.exports = function(app) {
         price: req.body.price,
         color: req.body.color 
   });
+
    // delete user-added car to db 
   app.delete('/api/delete/id:', function (req,res) {
       db.Item.destory({
@@ -87,26 +90,3 @@ module.exports = function(app) {
   
     
 });
-
-// deal with this, cause idk how
-if (errors){
-
-}
-
-// Else
-else {
-      var name     = req.body.name;
-      var email    = req.body.email;
-      var password = req.body.password;
-
-      console.log(name);
-
-  }
- passport.serializeUser(function(user_id, done) {
-    done(null, user_id);
-  });
-
-  passport.deserializeUser(function(user_id, done) {
-      done(null,user_id);
-  });
-
