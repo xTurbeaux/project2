@@ -28,7 +28,6 @@ module.exports = function(app) {
           res.json(result);
       });
     });
-  };
   // get one car by id 
   app.put('/api/update/:id', function (req,res) {
         db.Item.update({
@@ -88,14 +87,16 @@ module.exports = function(app) {
   
     
 });
+};
 
 // deal with this, cause idk how
-if (errors){
-
-}
+// if (error){
+//     throw error;
+// }
 
 // Else
-else {
+// else {
+{
       var name     = req.body.name;
       var email    = req.body.email;
       var password = req.body.password;

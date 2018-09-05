@@ -3,6 +3,14 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var exphbs = require("express-handlebars");
 var db = require("./models");
+// var OAuth2Client = require("google-auth-library");
+// var client = new OAuth2Client(CLIENT_ID);
+// function verify() {
+//   var ticket = await client.verifyIdToken({
+//     idToken: token,
+//     audience: CLIENT_ID,
+//   });
+// }
 
 var app = express();
 var PORT = process.env.PORT || 3000;
@@ -22,25 +30,10 @@ app.engine(
 );
 app.set("view engine", "handlebars");
 
-//routes based off db and apiRoutes function 
-
-app.use(express.static('app/public'));
-
-
-
 // Routes
-require("./routes/apiRoutes")(app);
-require("./routes/htmlRoutes")(app);
-
-//static db route/app 'app' route 
-
-apiRoutes(app);
-db.sequelize.sync().then(function() {
-    app.listen(PORT, function () {
-      console.log("Listening on port: " + PORT);
-    });
-});
-
+require("./routes/car-api-routes")(app);
+require("./routes/user-api-routes")(app);
+require("./routes/html-routes")(app);
 
 var syncOptions = { force: false };
 
@@ -59,13 +52,6 @@ db.sequelize.sync(syncOptions).then(function() {
       PORT
     );
   });
-});  
-// Hosting stuff
-var options = {
-  host: 'localhost',
-  user: 'root',
-  password:'root',
-  database: ''
-};
+});
 
 module.exports = app;
