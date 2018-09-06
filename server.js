@@ -1,25 +1,20 @@
 require("dotenv").config();
+
+// Variables
 var express = require("express");
 var bodyParser = require("body-parser");
 var exphbs = require("express-handlebars");
 var db = require("./models");
-// var OAuth2Client = require("google-auth-library");
-// var client = new OAuth2Client(CLIENT_ID);
-// function verify() {
-//   var ticket = await client.verifyIdToken({
-//     idToken: token,
-//     audience: CLIENT_ID,
-//   });
-// }
-
+var exphbs = require("express-handlebars");
+var passport = require("passport");
 var app = express();
 var PORT = process.env.PORT || 3000;
 
-// Middleware
+// Middleware tech
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(bodyParser.text());
-app.use(express.static("public"));
+ // Passport for configuration -JK
+ require('./config/passport')(db, passport);
 
 // Handlebars
 app.engine(
@@ -30,10 +25,9 @@ app.engine(
 );
 app.set("view engine", "handlebars");
 
-// Routes
-require("./routes/car-api-routes")(app);
-require("./routes/user-api-routes")(app);
-require("./routes/html-routes")(app);
+// Routes, updated with passport
+require("./routes/apiRoutes")(app, passport);
+require("./routes/htmlRoutes")(app, passport);
 
 var syncOptions = { force: false };
 

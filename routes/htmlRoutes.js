@@ -1,71 +1,46 @@
-// Vars
-var passport = require("../config/passport");
 var db = require("../models");
+var path = require("path");
 
-// Routes
+
+function LoggedIn(req, res, next) {
+
+	// if user is returning, redirect to home pagge
+	if (req.isAuthenticated()){
+    console.log("isAuthenticated: Passed");
+		return next();
+  }
+	// if they aren't redirect them to the home page
+	res.redirect('/');
+}
+
 module.exports = function(app) {
-    // Gets home page
-    app.get('/', function(req, res) {
-        console.log(reg.user);
-
-        // If user exsists, proceed
-        if (req.user) {
-            db.User.findOne({
-                where: {
-                    id: req.user
-                },
-                raw: true
-            }).then((dbUser) => {
-                // send data to handlebars and render
-                res.render("index", {
-                    loginStatus: true,
-                    dbUser
-                });
-            })
-
-        } else {
-            res.render("index");
-        }
+  // Load home
+  app.get("/", function(req, res) {
+    console.log(req.user);
+    res.sendFile(path.join(__dirname, `../public/index.html`), err=>{
+      if(err){
+        console.log(err);
+        throw new Error(`Error sending index.html page: ${err}`);
+      }
     });
-
-    // Handle login route
-    app.post("/login", passport.authenticate('local'), function(req, res) {
-        res.json('/');
+  });
+  // Log in redirect
+  app.get("/login", (req, res)=>{
+    console.log(req.user);
+    res.sendFile(path.join(__dirname, `../public/login.html`), err=>{
+      if(err){
+        throw new Error(`Error sending login.html page: ${err}`);
+      }
     });
-
-    // Register route
-    app.get('/sign', function(reg, res) {
-        res.render('register');
+  });
+// Sign uo
+  app.get("/signup", function(req, res) {
+    console.log(req.user);
+    res.sendFile(path.join(__dirname, `../public/signup.html`), err=>{
+      if(err){
+        console.log(err);
+        throw new Error(`Error sending signup.html page: ${err}`);
+      }
     });
-
-// Launches profile
-    app.get('/profile', function(req, res) {
-        res.render('profile');
-    });
-
-    // Logout route
-     app.get("/logout", function(req, res) {
-        req.logout();
-        res.redirect("/");
-    });
-
-
-  // Adds user to database
-    app.post("/sign", function(req, res) {
-
-        db.User.create({
-            name: req.body.name,
-            email: req.body.email,
-            password: req.body.password
-
-        }).then((result)=> {
-            console.log(result);
-            // send user back to login page
-            res.json('/login')
-
-        }).catch(function(err) {
-            //if err throw err to user
-            res.json(err);
-        });
-    });
+  });
 };

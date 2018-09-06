@@ -1,3 +1,5 @@
+// API routes
+
 // User log in route
 var db = require("../models");
 var passport = require('passport');
@@ -5,9 +7,6 @@ var app = app;
 
 //<<<<<<< blake-new
 
-module.exports = function(app) {
-
-=======
 module.exports = function(app) {
 //>>>>>>> master
     app.get("/api/user", authenticationMiddleware() ,function(req,res){
@@ -24,7 +23,7 @@ module.exports = function(app) {
   }
 };
 
-// API route 
+// API route
 module.exports = function(app) {
   
   // get all cars
@@ -36,8 +35,8 @@ module.exports = function(app) {
 //<<<<<<< blake-new
   // get one car by id 
   app.put('/api/update/:id', function (req,res) {
-=======
-  };
+//=======
+  });
   // get one car by id 
   app.post('/api/update/:id', function (req,res) {
 //>>>>>>> master
@@ -100,7 +99,7 @@ module.exports = function(app) {
 });
 //<<<<<<< blake-new
 };
-=======
+//=======
 //>>>>>>> master
 
 // deal with this, cause idk how
@@ -126,3 +125,46 @@ module.exports = function(app) {
       done(null,user_id);
   });
 
+
+// Passport stuff did by JK
+module.exports = function(app, passport) {
+  function isLoggedIn(req, res, next) {
+
+    // if user is authenticated in the session, carry on
+    if (req.isAuthenticated())
+      return next();
+  
+    // if they aren't redirect them to the home page
+    res.redirect('/');
+  };
+
+   // Creating a new User and Logging them in
+  app.post('/signup', (req, res, next) => {
+    console.log('Inside POST /signin callback')
+    passport.authenticate('local-signup', (err, user, info) => {
+      console.log('Inside passport.authenticate() callback');
+      console.log(`req.session.passport: ${JSON.stringify(req.session.passport)}`)
+      console.log(`req.user: ${JSON.stringify(req.user)}`)
+      req.login(user, err=> {
+        console.log('Inside req.login() callback')
+        console.log(`req.session.passport: ${JSON.stringify(req.session.passport)}`)
+        console.log(`req.user: ${JSON.stringify(req.user)}`)
+        res.status(200).json(req.user.username);
+      });
+    })(req, res, next);
+  })
+app.post('/login', (req, res, next)=>{
+    console.log('Inside POST /signin callback')
+    passport.authenticate('local-signup', (err, user, info) => {
+        console.log('Inside passport.authenticate() callback');
+        console.log(`req.session.passport: ${JSON.stringify(req.session.passport)}`)
+        console.log(`req.user: ${JSON.stringify(req.user)}`)
+        req.login(user, (err) => {
+            console.log('Inside req.login() callback')
+            console.log(`req.session.passport: ${JSON.stringify(req.session.passport)}`)
+            console.log(`req.user: ${JSON.stringify(req.user)}`)
+            res.status(200).json(req.user);
+        });
+    })(req, res, next);
+  });
+};
