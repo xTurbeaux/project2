@@ -1,4 +1,13 @@
 var db = require("../models");
+// Defaults to a random truck, comment by JFK
+var theURL = ' http://api.marketcheck.com/search?api_key=xxxxx&&year=2014make=ford&model=F-150&body_type=pickup&body_subtype=crew cab&latitude=34.05&longitude=-118.24&radius=100&car_type=used&start=0&rows=10';
+  if (category) {
+    theURL += '&category=' + categoryMap[category]
+  }
+
+
+
+
 
 module.exports = function(app) {
   app.get("/api/cars", function(req, res) {
